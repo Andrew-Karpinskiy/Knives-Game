@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Target
   - Knife
+  - Goal
   layers:
   - Default
   - TransparentFX
