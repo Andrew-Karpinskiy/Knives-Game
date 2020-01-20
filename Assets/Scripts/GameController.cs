@@ -12,9 +12,9 @@ public class GameController : MonoBehaviour
     private GameObject goalPrefab;
     [SerializeField]
     private Transform  goalParent;
-   
     private int availableKnives;
-   
+    private Color colorForDisableGoal = new Color(0.1698113f,0.1481844f,0.1481844f,1f);
+    
     private void Awake() 
     {
        availableKnives = SetAvailableKnivesRandomly(); 
@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
 	{
 		availableKnives--;
+        ChangeColorForDisabledGoal();
         if(availableKnives > 0 ) 
         {
             NewKnifeInstantiate();
@@ -32,7 +33,7 @@ public class GameController : MonoBehaviour
 
    private int SetAvailableKnivesRandomly() 
    {
-       return Random.Range(4,9);
+       return Random.Range(5,11);
    }
 
    private void NewKnifeInstantiate() 
@@ -46,5 +47,10 @@ public class GameController : MonoBehaviour
        {
            Instantiate(goalPrefab,goalParent);
        }
+   }
+
+   private void ChangeColorForDisabledGoal() 
+   {
+        goalParent.transform.GetChild(availableKnives).GetComponent<SpriteRenderer>().color = colorForDisableGoal;
    }
 }
