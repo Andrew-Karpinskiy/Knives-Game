@@ -1,56 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance {get;private set;}
     [SerializeField]
-    private GameObject knifePrefab;
-    [SerializeField]
-    private Transform  knifeParent;
-    [SerializeField]
-    private GameObject goalPrefab;
-    [SerializeField]
-    private Transform  goalParent;
+    private GameObject losePanel;
     private int availableKnives;
-    private Color colorForDisableGoal = new Color(0.1698113f,0.1481844f,0.1481844f,1f);
-    
+    private bool isPlayerLose = false;
+
     private void Awake() 
     {
+       Instance = this;
        availableKnives = SetAvailableKnivesRandomly(); 
-       NewGoalInstantiate();
+       GetComponent<UIController>().NewGoalInstantiate(availableKnives);
+       
     }
-   
-    private void OnCollisionEnter2D(Collision2D other)
-	{
-		availableKnives--;
-        ChangeColorForDisabledGoal();
-        if(availableKnives > 0 ) 
-        {
-            NewKnifeInstantiate();
-        }
-	}
-
+    
    private int SetAvailableKnivesRandomly() 
    {
        return Random.Range(5,11);
    }
 
-   private void NewKnifeInstantiate() 
+    public void OnSuccessfulHit()
+	{
+		availableKnives--;
+        GetComponent<UIController>().ChangeColorForDisabledGoal(availableKnives);
+        if(availableKnives > 0 && !isPlayerLose) 
+        {
+            GetComponent<UIController>().NewKnifeInstantiate();
+        }
+	}
+
+   public void StopTheGame() 
    {
-        Instantiate(knifePrefab,knifeParent);
+        isPlayerLose = true;
+        losePanel.SetActive(true);
    }
 
-   private void NewGoalInstantiate() 
+   public void RestartTheGame()
    {
-       for(int i = 0; i < availableKnives; i++) 
-       {
-           Instantiate(goalPrefab,goalParent);
-       }
-   }
-
-   private void ChangeColorForDisabledGoal() 
-   {
-        goalParent.transform.GetChild(availableKnives).GetComponent<SpriteRenderer>().color = colorForDisableGoal;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
    }
 }

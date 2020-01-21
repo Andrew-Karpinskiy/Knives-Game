@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnifeThrowingController : MonoBehaviour
+public class KnifeThrowing : MonoBehaviour
 {
     [SerializeField]
     private Vector2 throwForce;
@@ -10,12 +10,10 @@ public class KnifeThrowingController : MonoBehaviour
     private BoxCollider2D knifeCollider;
     private bool isKnifeActive = true;
     
-  
     private void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();  
         knifeCollider = GetComponent<BoxCollider2D>(); 
-        
     }
 
     private void Update() 
@@ -39,14 +37,17 @@ public class KnifeThrowingController : MonoBehaviour
             return;
         }
         isKnifeActive = false;
-        if (collision.collider.tag == "Target") 
+        if(collision.collider.tag == "Target") 
         {
             rb.velocity = new Vector2(0, 0);
             rb.bodyType = RigidbodyType2D.Kinematic;
             this.transform.SetParent(collision.collider.transform);
-            knifeCollider.offset = new Vector2(knifeCollider.offset.x, -0.2562374f);
-            knifeCollider.size = new Vector2(knifeCollider.size.x, 1.500711f);
+            knifeCollider.offset = new Vector2(knifeCollider.offset.x, -0.5476606f);
+            knifeCollider.size = new Vector2(knifeCollider.size.x, 0.9180121f);
         }
-    }
-
+        if(collision.collider.tag == "Knife") 
+        {
+            GameController.Instance.StopTheGame();
+        }
+    }    
 }
