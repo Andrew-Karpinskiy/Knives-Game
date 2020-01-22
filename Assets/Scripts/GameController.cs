@@ -9,25 +9,34 @@ public class GameController : MonoBehaviour
     public static GameController Instance {get;private set;}
     [SerializeField]
     private GameObject losePanel;
+    [SerializeField]
+    private GameObject gamePanel;
     private int availableKnives;
     private bool isPlayerLose = false;
-
+    
     private void Awake() 
     {
        Instance = this;
        availableKnives = SetAvailableKnivesRandomly(); 
        GetComponent<UIController>().NewGoalInstantiate(availableKnives);
-       
+       GetComponent<ScoreBoard>().AfterWin();
     }
-    
-   private int SetAvailableKnivesRandomly() 
-   {
+
+    private void Update()
+    {
+        StartNewGameLevel();
+    }
+
+    private int SetAvailableKnivesRandomly() 
+    {
        return Random.Range(5,11);
-   }
+    }
 
     public void OnSuccessfulHit()
 	{
 		availableKnives--;
+        GetComponent<ScoreBoard>().IncrementPlayerScore();
+        GetComponent<ScoreBoard>().SetScoreInText();
         GetComponent<UIController>().ChangeColorForDisabledGoal(availableKnives);
         if(availableKnives > 0 && !isPlayerLose) 
         {
@@ -35,14 +44,26 @@ public class GameController : MonoBehaviour
         }
 	}
 
-   public void StopTheGame() 
-   {
+    public void StopTheGame() 
+    {
         isPlayerLose = true;
+        //gamePanel.SetActive(false);
         losePanel.SetActive(true);
-   }
+    }
 
-   public void RestartTheGame()
-   {
+    public void RestartTheGame()
+    {
+        GetComponent<ScoreBoard>().ResetScoreAfterLose();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-   }
+    }
+
+    private void StartNewGameLevel() 
+    {
+        if(availableKnives == 0 && isPlayerLose == false)
+        {
+            GetComponent<ScoreBoard>().SaveScoreInCache();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
 }
