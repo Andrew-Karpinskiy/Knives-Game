@@ -8,6 +8,7 @@ public class ButtonsController : MonoBehaviour
     public void StartGameButton() 
     {
         SceneManager.LoadScene("Game");
+        PlayerPrefs.SetInt("CurrentScore",0);
     }
 
     public void RestartGameButton() 

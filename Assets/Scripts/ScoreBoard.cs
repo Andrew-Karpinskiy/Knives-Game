@@ -7,42 +7,36 @@ public class ScoreBoard : MonoBehaviour
 {
     [SerializeField]
     private Text scoreboard;
-    private int playerScore = 0;
-
-    public int GetPlayerScore()
-    {
-        return playerScore;
-    }
+    private int currentPlayerScore = 0;
+    private int bestPlayerScore;
 
     public void SetScoreInText()
     {
-        scoreboard.text =playerScore.ToString();
+        scoreboard.text =currentPlayerScore.ToString();
     }
 
-    public void SaveScoreInCache()
+    public void SaveCurrentScoreInCache()
     {
-        PlayerPrefs.SetInt("UserScore",playerScore);
+        PlayerPrefs.SetInt("CurrentScore",currentPlayerScore);
     }
 
-    public int GetPlayerScoreFromCache()
+    public int GetCurrentPlayerScoreFromCache()
     {
-        return PlayerPrefs.GetInt("UserScore");
+        return PlayerPrefs.GetInt("CurrentScore");
     }
 
     public void IncrementPlayerScore()
     {
-        playerScore = playerScore + 10;
+        currentPlayerScore = currentPlayerScore + 10;
     }
 
     public void ResetScoreAfterLose()
     {
-        PlayerPrefs.SetInt("UserScore",0);
+        PlayerPrefs.SetInt("CurrentScore",0);
     }
 
-    public void AfterWin()
+    public void SaveScoreBeforeNewRound()
     {
-        playerScore = GetPlayerScoreFromCache();
+        currentPlayerScore = GetCurrentPlayerScoreFromCache();
     }
-
-
 }

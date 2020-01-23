@@ -18,11 +18,13 @@ public class GameController : MonoBehaviour
     {
        Instance = this;
        availableKnives = SetAvailableKnivesRandomly(); 
+       //StartCoroutine("StartNewGameLevel");
        GetComponent<UIController>().NewGoalInstantiate(availableKnives);
-       GetComponent<ScoreBoard>().AfterWin();
+       GetComponent<ScoreBoard>().SaveScoreBeforeNewRound();
+       GetComponent<ScoreBoard>().SetScoreInText();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         StartNewGameLevel();
     }
@@ -47,7 +49,6 @@ public class GameController : MonoBehaviour
     public void StopTheGame() 
     {
         isPlayerLose = true;
-        //gamePanel.SetActive(false);
         losePanel.SetActive(true);
     }
 
@@ -61,9 +62,10 @@ public class GameController : MonoBehaviour
     {
         if(availableKnives == 0 && isPlayerLose == false)
         {
-            GetComponent<ScoreBoard>().SaveScoreInCache();
+            GetComponent<ScoreBoard>().SaveCurrentScoreInCache();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    
     }
 
 }
