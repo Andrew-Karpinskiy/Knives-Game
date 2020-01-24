@@ -12,7 +12,7 @@ public class ScoreBoard : MonoBehaviour
 
     public void SetScoreInText()
     {
-        scoreboard.text =currentPlayerScore.ToString();
+        scoreboard.text = currentPlayerScore.ToString();
     }
 
     public void SaveCurrentScoreInCache()

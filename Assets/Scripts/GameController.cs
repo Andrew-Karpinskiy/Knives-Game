@@ -18,7 +18,6 @@ public class GameController : MonoBehaviour
     {
        Instance = this;
        availableKnives = SetAvailableKnivesRandomly(); 
-       //StartCoroutine("StartNewGameLevel");
        GetComponent<UIController>().NewGoalInstantiate(availableKnives);
        GetComponent<ScoreBoard>().SaveScoreBeforeNewRound();
        GetComponent<ScoreBoard>().SetScoreInText();

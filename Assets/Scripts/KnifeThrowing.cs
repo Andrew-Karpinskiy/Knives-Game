@@ -9,14 +9,12 @@ public class KnifeThrowing : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D knifeCollider;
     private bool isKnifeActive = true;
-    AudioSource hitSound;
 
     
     private void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();  
         knifeCollider = GetComponent<BoxCollider2D>();
-        hitSound = GetComponent<AudioSource>();
     }
 
     private void Update() 
@@ -42,7 +40,7 @@ public class KnifeThrowing : MonoBehaviour
         isKnifeActive = false;
         if(collision.collider.tag == "Target") 
         {
-            hitSound.Play();
+            SoundController.Instance.PlayHitSound();
             rb.velocity = new Vector2(0, 0);
             rb.bodyType = RigidbodyType2D.Kinematic;
             this.transform.SetParent(collision.collider.transform);
