@@ -14,7 +14,7 @@ public class SoundController : MonoBehaviour
     private void Awake () 
     {
         hitSound = GetComponent<AudioSource>();
-        SetSettings();
+        //SetSettings();
         if (Instance == null) 
         { 
 	        Instance = this; 

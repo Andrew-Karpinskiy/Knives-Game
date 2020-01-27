@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KnifeThrowing : MonoBehaviour
+public class KnifeScript : MonoBehaviour
 {
     [SerializeField]
     private Vector2 throwForce;
@@ -41,6 +41,7 @@ public class KnifeThrowing : MonoBehaviour
         if(collision.collider.tag == "Target") 
         {
             SoundController.Instance.PlayHitSound();
+            GameController.Instance.OnSuccessfulHit();
             rb.velocity = new Vector2(0, 0);
             rb.bodyType = RigidbodyType2D.Kinematic;
             this.transform.SetParent(collision.collider.transform);

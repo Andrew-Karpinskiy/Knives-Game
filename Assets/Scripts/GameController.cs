@@ -7,25 +7,17 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance {get;private set;}
-    [SerializeField]
-    private GameObject losePanel;
-    [SerializeField]
-    private GameObject gamePanel;
     private int availableKnives;
     private bool isPlayerLose = false;
     
     private void Awake() 
     {
        Instance = this;
-       availableKnives = SetAvailableKnivesRandomly(); 
-       GetComponent<UIController>().NewGoalInstantiate(availableKnives);
-       GetComponent<ScoreBoard>().SaveScoreBeforeNewRound();
-       GetComponent<ScoreBoard>().SetScoreInText();
     }
 
     private void FixedUpdate()
     {
-        StartNewGameLevel();
+        CheangeLevel();
     }
 
     private int SetAvailableKnivesRandomly() 
@@ -36,35 +28,60 @@ public class GameController : MonoBehaviour
     public void OnSuccessfulHit()
 	{
 		availableKnives--;
-        GetComponent<ScoreBoard>().IncrementPlayerScore();
-        GetComponent<ScoreBoard>().SetScoreInText();
-        GetComponent<UIController>().ChangeColorForDisabledGoal(availableKnives);
+        ScoreBoard.Instance.IncrementPlayerScore();
+        ScoreBoard.Instance.SetScoreInText();
+        GetComponent<InstantiateManager>().ChangeColorForDisabledGoal(availableKnives);
         if(availableKnives > 0 && !isPlayerLose) 
         {
-            GetComponent<UIController>().NewKnifeInstantiate();
+            GetComponent<InstantiateManager>().NewKnifeInstantiate();
         }
 	}
 
     public void StopTheGame() 
     {
-        isPlayerLose = true;
-        losePanel.SetActive(true);
+       PanelsController.Instance.OpenLosePanel();
     }
 
     public void RestartTheGame()
     {
-        GetComponent<ScoreBoard>().ResetScoreAfterLose();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ScoreBoard.Instance.ResetScoreAfterLose();
+        ResetCurrentLevel();
+        PanelsController.Instance.CloseLosePanel();
+        DestroyTrash();
     }
 
-    private void StartNewGameLevel() 
+    public void StartNewGameLevel() 
+    {
+       availableKnives = SetAvailableKnivesRandomly();
+       GetComponent<InstantiateManager>().NewLevelInstantiate(); 
+       GetComponent<InstantiateManager>().NewGoalInstantiate(availableKnives);
+       ScoreBoard.Instance.SetScoreInText();
+    }
+
+    private void CheangeLevel()
     {
         if(availableKnives == 0 && isPlayerLose == false)
         {
-            GetComponent<ScoreBoard>().SaveCurrentScoreInCache();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+           ResetCurrentLevel();
         }
-    
+    }
+
+    private void ResetCurrentLevel()
+    {
+        DeleteOldLevel();
+        PanelsController.Instance.ResetPanelsWithGoals();
+        StartNewGameLevel();
+        DestroyTrash();
+    }
+
+    private void DeleteOldLevel()
+    {
+        Destroy(GameObject.Find("GamePanel(Clone)"));
+    }
+
+    private void DestroyTrash()
+    {
+        Destroy(GameObject.Find("Knife(Clone)"));
     }
 
 }

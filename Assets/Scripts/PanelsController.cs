@@ -5,15 +5,23 @@ using UnityEngine.UI;
 
 public class PanelsController : MonoBehaviour
 {
-    public static PanelsController Instance = null;
     [SerializeField]
     private GameObject mainPanel; 
     [SerializeField]
     private GameObject settingsPanel;
-   
-   
-    
+    [SerializeField]
+    private GameObject losePanel;
+    [SerializeField]
+    private Transform panelWithGoals;
+    [SerializeField]
+    private GameObject menuWindow;
+    [SerializeField]
+    private GameObject gameWindow;
+    [SerializeField]
+    private GameObject goalsAndScorePanel;
 
+
+    public static PanelsController Instance = null; 
 
     private void Awake () 
     {
@@ -25,9 +33,8 @@ public class PanelsController : MonoBehaviour
         { 
 	        Destroy(gameObject); 
 	    }
-        DontDestroyOnLoad(gameObject);
+        OpenMenu();
     }
-
 
     public void OpenSettingsPanel()
     {
@@ -39,6 +46,42 @@ public class PanelsController : MonoBehaviour
     {
         settingsPanel.SetActive(false);
         mainPanel.SetActive(true);
+    }
+
+    public void OpenLosePanel() 
+    {
+        losePanel.SetActive(true);
+    }
+
+    public void CloseLosePanel()
+    {
+        losePanel.SetActive(false);
+    }
+
+    public void ResetPanelsWithGoals()
+    {
+        foreach (Transform child in panelWithGoals)
+        {
+            Destroy(child.gameObject);
+        } 
+        
+    }
+
+    public void OpenMenu()
+    {
+        goalsAndScorePanel.SetActive(false);
+        gameWindow.SetActive(false);
+        menuWindow.SetActive(true);
+    }
+
+    public void OpenGame()
+    {
+        menuWindow.SetActive(false);
+        losePanel.SetActive(false);
+        goalsAndScorePanel.SetActive(true);
+        gameWindow.SetActive(true);
+        
+
     }
 
 }

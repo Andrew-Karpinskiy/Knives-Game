@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class InstantiateManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject knifePrefab;
@@ -13,7 +13,14 @@ public class UIController : MonoBehaviour
     private GameObject goalPrefab;
     [SerializeField]
     private Transform  goalParent;
+    [SerializeField]
+    private GameObject levelPrefab;
+    [SerializeField]
+    private Transform  levelParent;
+
     private Color colorForDisableGoal = new Color(0.1698113f,0.1481844f,0.1481844f,1f);
+
+
 
     public void NewKnifeInstantiate() 
     {
@@ -30,7 +37,12 @@ public class UIController : MonoBehaviour
 
     public void ChangeColorForDisabledGoal(int index) 
     {
-        goalParent.transform.GetChild(index).GetComponent<SpriteRenderer>().color = colorForDisableGoal;
+        goalParent.transform.GetChild(index).GetComponent<Image>().color = colorForDisableGoal;
+    }
+
+    public void NewLevelInstantiate()
+    {
+        Instantiate(levelPrefab,levelParent);
     }
 
 }

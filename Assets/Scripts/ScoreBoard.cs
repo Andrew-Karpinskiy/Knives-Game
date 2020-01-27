@@ -5,38 +5,38 @@ using UnityEngine.UI;
 
 public class ScoreBoard : MonoBehaviour
 {
+    public static ScoreBoard Instance = null;
     [SerializeField]
     private Text scoreboard;
     private int currentPlayerScore = 0;
     private int bestPlayerScore;
+
+    private void Awake () 
+    {
+        if (Instance == null) 
+        { 
+	        Instance = this; 
+
+	    } else if(Instance == this)
+        { 
+	        Destroy(gameObject); 
+	    }
+    }
 
     public void SetScoreInText()
     {
         scoreboard.text = currentPlayerScore.ToString();
     }
 
-    public void SaveCurrentScoreInCache()
-    {
-        PlayerPrefs.SetInt("CurrentScore",currentPlayerScore);
-    }
-
-    public int GetCurrentPlayerScoreFromCache()
-    {
-        return PlayerPrefs.GetInt("CurrentScore");
-    }
-
     public void IncrementPlayerScore()
     {
-        currentPlayerScore = currentPlayerScore + 10;
+        currentPlayerScore = currentPlayerScore + 1;
     }
 
     public void ResetScoreAfterLose()
     {
-        PlayerPrefs.SetInt("CurrentScore",0);
+        currentPlayerScore = 0;
     }
 
-    public void SaveScoreBeforeNewRound()
-    {
-        currentPlayerScore = GetCurrentPlayerScoreFromCache();
-    }
+    
 }
