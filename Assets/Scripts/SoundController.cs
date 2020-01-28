@@ -8,13 +8,11 @@ public class SoundController : MonoBehaviour
     private AudioSource hitSound;
     [SerializeField]
     private AudioSource mainSound;
-    public bool isSoundOn = true;
-    public bool isMusicOn = true;
+    public bool isSoundOn;
+    public bool isMusicOn;
 
     private void Awake () 
     {
-        hitSound = GetComponent<AudioSource>();
-        //SetSettings();
         if (Instance == null) 
         { 
 	        Instance = this; 
@@ -24,10 +22,16 @@ public class SoundController : MonoBehaviour
 	        Destroy(gameObject); 
 	    }
         DontDestroyOnLoad(gameObject);
+        hitSound = GetComponent<AudioSource>();
+        SetSettings();
+    }
+
+    private void Start()
+    {
         PlayMainMusic();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         ReplayMainMusic();
     }
@@ -69,7 +73,7 @@ public class SoundController : MonoBehaviour
 
     public bool GetSoundSettingsFromCache()
     {
-        bool result = (PlayerPrefs.GetString("Sound") == "true");
+        bool result = (PlayerPrefs.GetString("Sound") == "True");
         return result;
     }
 
@@ -81,7 +85,7 @@ public class SoundController : MonoBehaviour
 
     public bool GetMusicSettingsFromCache()
     {
-        bool result = (PlayerPrefs.GetString("Music") == "true");
+        bool result = (PlayerPrefs.GetString("Music") == "True");
         return result;
     }
 

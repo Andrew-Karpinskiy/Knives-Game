@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+
 
 public class GameController : MonoBehaviour
 {
     public static GameController Instance {get;private set;}
     private int availableKnives;
     private bool isPlayerLose = false;
+    
     
     private void Awake() 
     {
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheangeLevel();
+        IfPlayerWin();
     }
 
     private int SetAvailableKnivesRandomly() 
@@ -42,12 +43,20 @@ public class GameController : MonoBehaviour
        PanelsController.Instance.OpenLosePanel();
     }
 
-    public void RestartTheGame()
+    public void IfPlayerLose()
     {
         ScoreBoard.Instance.ResetScoreAfterLose();
         ResetCurrentLevel();
         PanelsController.Instance.CloseLosePanel();
-        DestroyTrash();
+        LvlController.Instance.RestartGame();
+    }
+
+    private void ResetCurrentLevel()
+    {
+        DestroyOldLevel();
+        PanelsController.Instance.ResetPanelsWithGoals();
+        StartNewGameLevel();
+        
     }
 
     public void StartNewGameLevel() 
@@ -58,30 +67,21 @@ public class GameController : MonoBehaviour
        ScoreBoard.Instance.SetScoreInText();
     }
 
-    private void CheangeLevel()
+    private void IfPlayerWin()
     {
         if(availableKnives == 0 && isPlayerLose == false)
         {
            ResetCurrentLevel();
+           LvlController.Instance.IncrementCurrentStage();
+           LvlController.Instance.SetCurrentStageInText();
+           LvlController.Instance.SetCurrentLvlInText();
         }
     }
 
-    private void ResetCurrentLevel()
-    {
-        DeleteOldLevel();
-        PanelsController.Instance.ResetPanelsWithGoals();
-        StartNewGameLevel();
-        DestroyTrash();
-    }
-
-    private void DeleteOldLevel()
+    private void DestroyOldLevel()
     {
         Destroy(GameObject.Find("GamePanel(Clone)"));
     }
 
-    private void DestroyTrash()
-    {
-        Destroy(GameObject.Find("Knife(Clone)"));
-    }
-
+    
 }
