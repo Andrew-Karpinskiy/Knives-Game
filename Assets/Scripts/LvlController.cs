@@ -38,7 +38,8 @@ public class LvlController : MonoBehaviour
 
     public void IncrementCurrentStage() 
     {
-        currentStage++;        
+        currentStage++;   
+        ScoreBoard.Instance.SaveCurrentStagesComplete();     
     }
 
     private void IncrementCurrentLvl()
@@ -68,6 +69,8 @@ public class LvlController : MonoBehaviour
             IncrementCurrentLvl();
             ResetCurrentStage();
             StartNewGame();
+            ScoreBoard.Instance.SaveCurrentLvlsComplete();
+            ScoreBoard.Instance.SaveBestLvl();
         }
     }
 

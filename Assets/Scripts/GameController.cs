@@ -10,7 +10,6 @@ public class GameController : MonoBehaviour
     private int availableKnives;
     private bool isPlayerLose = false;
     
-    
     private void Awake() 
     {
        Instance = this;
@@ -23,7 +22,7 @@ public class GameController : MonoBehaviour
 
     private int SetAvailableKnivesRandomly() 
     {
-       return Random.Range(5,11);
+       return Random.Range(5,10);
     }
 
     public void OnSuccessfulHit()
@@ -41,6 +40,8 @@ public class GameController : MonoBehaviour
     public void StopTheGame() 
     {
        PanelsController.Instance.OpenLosePanel();
+       ScoreBoard.Instance.SaveBestScore();
+      
     }
 
     public void IfPlayerLose()
@@ -75,6 +76,7 @@ public class GameController : MonoBehaviour
            LvlController.Instance.IncrementCurrentStage();
            LvlController.Instance.SetCurrentStageInText();
            LvlController.Instance.SetCurrentLvlInText();
+           ScoreBoard.Instance.SaveBestStages();
         }
     }
 

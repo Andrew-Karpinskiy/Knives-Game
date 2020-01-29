@@ -19,6 +19,9 @@ public class PanelsController : MonoBehaviour
     private GameObject gameWindow;
     [SerializeField]
     private GameObject goalsAndScorePanel;
+    [SerializeField]
+    private GameObject recordPanel;
+
 
 
     public static PanelsController Instance = null; 
@@ -42,9 +45,15 @@ public class PanelsController : MonoBehaviour
         settingsPanel.SetActive(true);
     }
 
-    public void OpenMainPanel()
+    public void OpenMainPanelFromSettings()
     {
         settingsPanel.SetActive(false);
+        mainPanel.SetActive(true);
+    }
+
+    public void OpenMainPanelFromRecords()
+    {
+        recordPanel.SetActive(false);
         mainPanel.SetActive(true);
     }
 
@@ -63,8 +72,16 @@ public class PanelsController : MonoBehaviour
         foreach (Transform child in panelWithGoals)
         {
             Destroy(child.gameObject);
-        } 
-        
+        }    
+    }
+
+    public void OpenRecordsPanel()
+    {
+        recordPanel.SetActive(true);
+        ScoreBoard.Instance.SetBestScoreInText();
+        ScoreBoard.Instance.SetBestStageInText();
+        ScoreBoard.Instance.SetBestLvlInText();
+        mainPanel.SetActive(false);
     }
 
     public void OpenMenu()
@@ -80,8 +97,6 @@ public class PanelsController : MonoBehaviour
         losePanel.SetActive(false);
         goalsAndScorePanel.SetActive(true);
         gameWindow.SetActive(true);
-        
-
     }
 
 }

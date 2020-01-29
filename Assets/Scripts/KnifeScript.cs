@@ -50,6 +50,11 @@ public class KnifeScript : MonoBehaviour
         }
         if(collision.collider.tag == "Knife") 
         {
+             SoundController.Instance.PlayVibration();
+            gameObject.tag = "Trash";
+            rb.velocity = new Vector2(0, 0);
+            rb.AddForce(new Vector2(0,-1), ForceMode2D.Impulse);
+            knifeCollider.isTrigger = true;
             GameController.Instance.StopTheGame();
         }
     }    

@@ -10,6 +10,7 @@ public class SoundController : MonoBehaviour
     private AudioSource mainSound;
     public bool isSoundOn;
     public bool isMusicOn;
+    public bool isVibrationOn;
 
     private void Awake () 
     {
@@ -102,7 +103,34 @@ public class SoundController : MonoBehaviour
         {
             isSoundOn = GetSoundSettingsFromCache();
         } else {
-            isMusicOn = true;
+            isSoundOn = true;
         }
+
+        if(PlayerPrefs.HasKey("Vibration"))
+        {
+            isVibrationOn = GetVibrationSettingsFromCache();
+        } else {
+            isVibrationOn = true;
+        }
+    }
+
+    public void PlayVibration()
+    {
+        if(isVibrationOn == true)
+        {
+            Handheld.Vibrate();
+        }
+    }
+
+     public void SaveVibrationSettingsInCache(bool bl)
+    {
+        isVibrationOn = bl;
+        PlayerPrefs.SetString("Vibration",bl.ToString());
+    }
+
+    public bool GetVibrationSettingsFromCache()
+    {
+        bool result = (PlayerPrefs.GetString("Vibration") == "True");
+        return result;
     }
 }
