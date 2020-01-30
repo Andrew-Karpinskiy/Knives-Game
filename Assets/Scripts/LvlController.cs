@@ -71,6 +71,7 @@ public class LvlController : MonoBehaviour
             StartNewGame();
             ScoreBoard.Instance.SaveCurrentLvlsComplete();
             ScoreBoard.Instance.SaveBestLvl();
+            BackgroundColorController.Instance.SetColorInCamera();
         }
     }
 

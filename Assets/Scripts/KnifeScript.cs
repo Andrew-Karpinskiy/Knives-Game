@@ -10,7 +10,6 @@ public class KnifeScript : MonoBehaviour
     private BoxCollider2D knifeCollider;
     private bool isKnifeActive = true;
 
-    
     private void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();  
@@ -50,7 +49,7 @@ public class KnifeScript : MonoBehaviour
         }
         if(collision.collider.tag == "Knife") 
         {
-             SoundController.Instance.PlayVibration();
+            SoundController.Instance.PlayVibration();
             gameObject.tag = "Trash";
             rb.velocity = new Vector2(0, 0);
             rb.AddForce(new Vector2(0,-1), ForceMode2D.Impulse);

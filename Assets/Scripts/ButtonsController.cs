@@ -17,6 +17,7 @@ public class ButtonsController : MonoBehaviour
     public void StartGameButton() 
     {
         PanelsController.Instance.OpenGame();
+        GameController.Instance.ResetCurrentLevel();
     }
 
     public void RestartGameButton() 
@@ -44,14 +45,21 @@ public class ButtonsController : MonoBehaviour
         PanelsController.Instance.OpenMainPanelFromRecords();
     }
 
-    //КНОПКИ
+    public void BackToMainFromGameButton()
+    {
+        ScoreBoard.Instance.SaveAll();
+        GameController.Instance.IfPlayerBackToMain();
+        PanelsController.Instance.OpenMenu();
+        ScoreBoard.Instance.ResetScoreAfterLose();
+        LvlController.Instance.RestartGame();
+    }
+
     public void MusicOffButton()
     {
         SetActiveToMusicOffButton(false);
         SetActiveToMusicOnButton(true);
         SoundController.Instance.SaveMusicSettingsInCache(true);
         SoundController.Instance.PlayMainMusic();
-
     }
 
     public void MusicOnButton()
@@ -75,7 +83,7 @@ public class ButtonsController : MonoBehaviour
         SetActiveToSoundOffButton(true);
         SoundController.Instance.SaveSoundSettingsInCache(false);
     }
-////////////////////
+
     public void VibrOffButton()
     {
         SetActiveToVibrOffButton(false);
@@ -90,9 +98,6 @@ public class ButtonsController : MonoBehaviour
         SoundController.Instance.SaveVibrationSettingsInCache(false);
     }
 
-
-
-    //ОТОБРАЖЕНИЕ КНОПОК 
     private void SetActiveToMusicOnButton(bool bl)
     {
         musicOn.gameObject.SetActive(bl);
@@ -112,7 +117,7 @@ public class ButtonsController : MonoBehaviour
     {
         soundOff.gameObject.SetActive(bl);
     } 
-////////////////////////
+
     private void SetActiveToVibrOnButton(bool bl)
     {
         vibrOn.gameObject.SetActive(bl);
@@ -122,10 +127,6 @@ public class ButtonsController : MonoBehaviour
     {
         vibrOff.gameObject.SetActive(bl);
     }  
-
-
-
-
 
     private void DisplayMusicButtons()
     {
@@ -147,7 +148,7 @@ public class ButtonsController : MonoBehaviour
             SetActiveToSoundOffButton(true);
         }
 
-         if(SoundController.Instance.isVibrationOn == true)
+        if(SoundController.Instance.isVibrationOn == true)
         {
             SetActiveToVibrOnButton(true);
             SetActiveToVibrOffButton(false);
@@ -155,6 +156,5 @@ public class ButtonsController : MonoBehaviour
             SetActiveToVibrOnButton(false);
             SetActiveToVibrOffButton(true);
         }
-        
     } 
 }

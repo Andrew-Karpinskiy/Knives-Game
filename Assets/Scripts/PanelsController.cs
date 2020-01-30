@@ -22,8 +22,6 @@ public class PanelsController : MonoBehaviour
     [SerializeField]
     private GameObject recordPanel;
 
-
-
     public static PanelsController Instance = null; 
 
     private void Awake () 

@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
 
     private int SetAvailableKnivesRandomly() 
     {
-       return Random.Range(5,10);
+       return Random.Range(5,9);
     }
 
     public void OnSuccessfulHit()
@@ -41,7 +41,6 @@ public class GameController : MonoBehaviour
     {
        PanelsController.Instance.OpenLosePanel();
        ScoreBoard.Instance.SaveBestScore();
-      
     }
 
     public void IfPlayerLose()
@@ -52,12 +51,17 @@ public class GameController : MonoBehaviour
         LvlController.Instance.RestartGame();
     }
 
-    private void ResetCurrentLevel()
+    public void ResetCurrentLevel()
     {
         DestroyOldLevel();
         PanelsController.Instance.ResetPanelsWithGoals();
         StartNewGameLevel();
-        
+    }
+
+    public void IfPlayerBackToMain()
+    {
+      DestroyOldLevel();
+      PanelsController.Instance.ResetPanelsWithGoals();
     }
 
     public void StartNewGameLevel() 

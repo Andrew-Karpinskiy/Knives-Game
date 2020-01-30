@@ -131,4 +131,11 @@ public class ScoreBoard : MonoBehaviour
     {
         bestLlvsText.text = maxLvlComplete.ToString();
     }
+
+    public void SaveAll()
+    {
+        SaveBestLvl();
+        SaveBestStages();
+        SaveBestScore();
+    }
 }
